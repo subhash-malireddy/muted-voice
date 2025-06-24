@@ -1,0 +1,121 @@
+.blogPostPage {
+  min-height: 70vh;
+  padding: 2rem 0 4rem;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.navigation {
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #212529;
+    transform: translateX(-2px);
+  }
+}
+
+.article {
+  margin-bottom: 4rem;
+}
+
+.header {
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+.author {
+  font-weight: 500;
+  
+  &::before {
+    content: "👤 ";
+    margin-right: 0.25rem;
+  }
+}
+
+.content {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #333;
+  white-space: pre-wrap;
+  
+  // Better text rendering
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
+.footer {
+  padding-top: 2rem;
+  border-top: 1px solid #e9ecef;
+  text-align: center;
+}
+
+.backButtonSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+    transform: translateX(-2px);
+  }
+} 

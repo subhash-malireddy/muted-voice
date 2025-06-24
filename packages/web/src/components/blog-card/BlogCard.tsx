@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Blog } from '@baseline/types/blog';
 import styles from './BlogCard.module.scss';
 
@@ -7,6 +8,8 @@ interface BlogCardProps {
 }
 
 const BlogCard = ({ blog }: BlogCardProps): JSX.Element => {
+  const navigate = useNavigate();
+
   // Extract preview from content (first 150 characters)
   const getPreview = (content: string): string => {
     if (content.length <= 150) return content;
@@ -14,8 +17,7 @@ const BlogCard = ({ blog }: BlogCardProps): JSX.Element => {
   };
 
   const handleCardClick = () => {
-    // TODO: Navigate to single blog page
-    console.log('Navigate to blog:', blog.blogId);
+    navigate(`/blogs/${blog.blogId}`);
   };
 
   return (
