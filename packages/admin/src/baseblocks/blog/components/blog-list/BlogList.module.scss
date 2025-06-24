@@ -13,73 +13,35 @@
       }
     }
     
-    .blog {
+    .errorMessage {
+      background-color: #f8d7da;
+      color: #721c24;
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
-      border: 1px solid #e1e5e9;
-      border-radius: 8px;
-      margin-bottom: 0.75rem;
-      background: white;
+      border: 1px solid #f5c6cb;
       
-      .info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        flex: 1;
+      .dismissError {
+        background: none;
+        border: none;
+        color: #721c24;
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 0;
+        margin-left: 1rem;
         
-        .details {
-          .title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 0.25rem;
-          }
-          
-          .author {
-            font-size: 0.9rem;
-            color: #666;
-          }
-        }
-        
-        .pill {
-          padding: 0.25rem 0.75rem;
-          border-radius: 12px;
-          font-size: 0.8rem;
-          font-weight: 500;
-          
-          &.published {
-            background-color: #d4edda;
-            color: #155724;
-          }
-          
-          &.draft {
-            background-color: #fff3cd;
-            color: #856404;
-          }
+        &:hover {
+          opacity: 0.7;
         }
       }
-      
-      .buttons {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        
-        .publishBtn {
-          padding: 0.5rem 1rem;
-          background-color: #007bff;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 0.9rem;
-          
-          &:hover {
-            background-color: #0056b3;
-          }
-        }
-      }
+    }
+    
+    .blogPosts {
+      display: flex;
+      flex-direction: column;
     }
   }
 } 

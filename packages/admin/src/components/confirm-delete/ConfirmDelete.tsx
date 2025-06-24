@@ -5,10 +5,11 @@ import styles from './ConfirmDelete.module.scss';
 interface Props {
   itemName: string;
   deleteFunction(this: void): Promise<void>;
+  isLoading?: boolean;
 }
 
 const ConfirmDelete = (props: Props): JSX.Element => {
-  const { itemName, deleteFunction } = props;
+  const { itemName, deleteFunction, isLoading = false } = props;
 
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
@@ -20,8 +21,8 @@ const ConfirmDelete = (props: Props): JSX.Element => {
 
   return (
     <div className={styles.confirmDelete}>
-      <Button color="danger" onClick={toggle}>
-        Delete
+      <Button color="danger" onClick={toggle} disabled={isLoading}>
+        {isLoading ? 'Deleting...' : 'Delete'}
       </Button>
       <Modal isOpen={modal} toggle={toggle} centered>
         <ModalHeader toggle={toggle}>Delete "{itemName}"?</ModalHeader>
