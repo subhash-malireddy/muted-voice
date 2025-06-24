@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { Blog } from '@baseline/types/blog';
 import { createBlog } from '@baseline/client-api/blog';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
@@ -14,14 +14,16 @@ const AddBlog = (props: Props): JSX.Element => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [isPublished, setIsPublished] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
-    setIsLoading(true);
-    setError(null);
+    if (isPending) {
+      setError('Please wait, blog creation in progress...');
+      return;
+    }
 
     const blogData: Partial<Blog> = {
       title,
@@ -30,31 +32,43 @@ const AddBlog = (props: Props): JSX.Element => {
       isPublished,
     };
 
-    try {
-      const newBlog = await createBlog(getRequestHandler(), blogData);
-      props.setAllBlogs((blogs) => [...blogs, newBlog]);
+    setError(null);
 
-      // Reset form
-      setTitle('');
-      setContent('');
-      setAuthor('');
-      setIsPublished(false);
-      setIsOpen(false);
-    } catch (error) {
-      console.error('Failed to create blog:', error);
-      setError('Failed to create blog. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+    startTransition(() => {
+      createBlog(getRequestHandler(), blogData)
+        .then((newBlog) => {
+          props.setAllBlogs((blogs) => [...blogs, newBlog]);
+
+          // Reset form
+          setTitle('');
+          setContent('');
+          setAuthor('');
+          setIsPublished(false);
+          setIsOpen(false);
+        })
+        .catch((error) => {
+          console.error('Failed to create blog:', error);
+          setError('Failed to create blog. Please try again.');
+        });
+    });
   };
 
   const handleClose = () => {
+    if (isPending) {
+      setError('Please wait, blog creation in progress...');
+      return;
+    }
+
     setIsOpen(false);
     setError(null);
     setTitle('');
     setContent('');
     setAuthor('');
     setIsPublished(false);
+  };
+
+  const getButtonText = () => {
+    return isPending ? 'Creating...' : 'Create Blog';
   };
 
   return (
@@ -87,7 +101,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  disabled={isLoading}
+                  disabled={isPending}
                   required
                 />
               </div>
@@ -98,7 +112,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   type="text"
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
-                  disabled={isLoading}
+                  disabled={isPending}
                   required
                 />
               </div>
@@ -109,7 +123,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={10}
-                  disabled={isLoading}
+                  disabled={isPending}
                   required
                 />
               </div>
@@ -120,7 +134,7 @@ const AddBlog = (props: Props): JSX.Element => {
                     type="checkbox"
                     checked={isPublished}
                     onChange={(e) => setIsPublished(e.target.checked)}
-                    disabled={isLoading}
+                    disabled={isPending}
                   />
                   Publish immediately
                 </label>
@@ -130,12 +144,12 @@ const AddBlog = (props: Props): JSX.Element => {
                 <button
                   type="button"
                   onClick={handleClose}
-                  disabled={isLoading}
+                  disabled={isPending}
                 >
                   Cancel
                 </button>
-                <button type="submit" disabled={isLoading}>
-                  {isLoading ? 'Creating...' : 'Create Blog'}
+                <button type="submit" disabled={isPending}>
+                  {getButtonText()}
                 </button>
               </div>
             </form>
