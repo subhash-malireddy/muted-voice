@@ -18,7 +18,7 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
     'publish' | 'delete' | null
   >(null);
 
-  const handleDelete = async (): Promise<void> => {
+  const handleDelete = (): void => {
     if (isPending) {
       toast.error(
         `Please wait, ${
@@ -46,7 +46,7 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
     });
   };
 
-  const handlePublish = async (): Promise<void> => {
+  const handlePublish = (): void => {
     if (isPending) {
       toast.error(
         `Please wait, ${
