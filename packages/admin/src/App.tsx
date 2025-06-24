@@ -16,6 +16,13 @@ import Dashboard from './baseblocks/dashboard/pages/Dashboard';
 import User, { userLoader } from './baseblocks/user/pages/User';
 import Admins, { adminListLoader } from './baseblocks/admin/pages/Admins';
 import Blogs, { blogListLoader } from './baseblocks/blog/pages/Blogs';
+import ViewBlogPage, {
+  viewBlogLoader,
+} from './baseblocks/blog/pages/ViewBlogPage';
+import EditBlogPage, {
+  editBlogLoader,
+} from './baseblocks/blog/pages/EditBlogPage';
+import CreateBlogPage from './baseblocks/blog/pages/CreateBlogPage';
 import {
   createRequestHandler,
   getRequestHandler,
@@ -131,6 +138,20 @@ const router = createBrowserRouter([
         path: '/blogs',
         Component: Blogs,
         loader: blogListLoader,
+      },
+      {
+        path: '/blogs/new',
+        Component: CreateBlogPage,
+      },
+      {
+        path: '/blogs/:id',
+        Component: ViewBlogPage,
+        loader: viewBlogLoader,
+      },
+      {
+        path: '/blogs/:id/edit',
+        Component: EditBlogPage,
+        loader: editBlogLoader,
       },
       { path: '/settings', Component: User, loader: userLoader },
     ],

@@ -2,6 +2,7 @@ import React, { useState, useTransition } from 'react';
 import { Blog } from '@baseline/types/blog';
 import { deleteBlog, updateBlog } from '@baseline/client-api/blog';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import ConfirmDelete from '../../../../components/confirm-delete/ConfirmDelete';
 import styles from './BlogPost.module.scss';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
@@ -13,6 +14,7 @@ interface BlogPostProps {
 }
 
 const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
+  const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const [currentOperation, setCurrentOperation] = useState<
     'publish' | 'delete' | null
@@ -82,13 +84,27 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
     return currentOperation === 'publish' ? 'Publishing...' : 'Publish';
   };
 
+  const handleTitleClick = () => {
+    navigate(`/blogs/${blog.blogId}`);
+  };
+
+  const handleEditClick = () => {
+    navigate(`/blogs/${blog.blogId}/edit`);
+  };
+
   const isDeleteLoading = isPending && currentOperation === 'delete';
 
   return (
     <div className={styles.blogPost}>
       <div className={styles.info}>
         <div className={styles.details}>
-          <div className={styles.title}>{blog.title}</div>
+          <div
+            className={styles.title}
+            onClick={handleTitleClick}
+            style={{ cursor: 'pointer', textDecoration: 'underline' }}
+          >
+            {blog.title}
+          </div>
           <div className={styles.author}>By {blog.author}</div>
         </div>
         <div
@@ -100,6 +116,24 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
         </div>
       </div>
       <div className={styles.buttons}>
+        <button
+          onClick={handleEditClick}
+          disabled={isPending}
+          style={{
+            padding: '0.5rem 1rem',
+            backgroundColor: '#6c757d',
+            color: '#fff',
+            border: 0,
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '0.9rem',
+            marginRight: '0.5rem',
+            transition: 'background-color 0.2s',
+            opacity: isPending ? 0.6 : 1,
+          }}
+        >
+          Edit
+        </button>
         {!blog.isPublished && (
           <button
             className={styles.publishBtn}

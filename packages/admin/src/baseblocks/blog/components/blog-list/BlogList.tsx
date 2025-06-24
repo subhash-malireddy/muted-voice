@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Blog } from '@baseline/types/blog';
+import { useNavigate } from 'react-router-dom';
 import styles from './BlogList.module.scss';
-import AddBlog from '../add-blog/AddBlog';
 import BlogPost from '../blog-post/BlogPost';
 
 interface BlogListProps {
@@ -9,6 +9,7 @@ interface BlogListProps {
 }
 
 const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
+  const navigate = useNavigate();
   const [allBlogs, setAllBlogs] = useState<Blog[]>(blogs);
 
   const handleBlogDelete = (blogId: string) => {
@@ -23,6 +24,10 @@ const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
     );
   };
 
+  const handleNewBlogClick = () => {
+    navigate('/blogs/new');
+  };
+
   return (
     <div className={styles.blogList}>
       <div className={styles.list}>
@@ -30,7 +35,22 @@ const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
           <div className={styles.blogCount}>
             You have {allBlogs.length} blog posts
           </div>
-          <AddBlog setAllBlogs={setAllBlogs} />
+          <button
+            onClick={handleNewBlogClick}
+            style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#007bff',
+              color: '#fff',
+              border: 0,
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '0.95rem',
+              fontWeight: '500',
+              transition: 'background-color 0.2s',
+            }}
+          >
+            New Blog
+          </button>
         </div>
 
         <div className={styles.blogPosts}>
