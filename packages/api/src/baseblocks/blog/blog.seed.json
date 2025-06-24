@@ -1,0 +1,23 @@
+[
+  {
+    "blogId": "1",
+    "title": "Blog 1",
+    "content": "content - 1, Pirate ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "author": "subhashmalireddy@gmail.com",
+    "isPublished": true
+  },
+  {
+    "blogId": "2",
+    "title": "Blog 2",
+    "content": "content - 2, Pirate ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "author": "subhashmaliredd@gmail.com",
+    "isPublished": false
+  },
+  {
+    "blogId": "3",
+    "title": "Blog 3",
+    "content": "content - 3, Pirate ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "author": "subhashmaliredd@gmail.com",
+    "isPublished": true
+  }
+]
