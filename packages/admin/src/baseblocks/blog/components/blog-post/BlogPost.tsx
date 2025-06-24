@@ -1,6 +1,7 @@
 import React, { useState, useTransition } from 'react';
 import { Blog } from '@baseline/types/blog';
 import { deleteBlog, updateBlog } from '@baseline/client-api/blog';
+import { toast } from 'react-toastify';
 import ConfirmDelete from '../../../../components/confirm-delete/ConfirmDelete';
 import styles from './BlogPost.module.scss';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
@@ -9,15 +10,9 @@ interface BlogPostProps {
   blog: Blog;
   onDelete: (blogId: string) => void;
   onUpdate: (updatedBlog: Blog) => void;
-  onError: (error: string) => void;
 }
 
-const BlogPost = ({
-  blog,
-  onDelete,
-  onUpdate,
-  onError,
-}: BlogPostProps): JSX.Element => {
+const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
   const [isPending, startTransition] = useTransition();
   const [currentOperation, setCurrentOperation] = useState<
     'publish' | 'delete' | null
@@ -25,7 +20,7 @@ const BlogPost = ({
 
   const handleDelete = async (): Promise<void> => {
     if (isPending) {
-      onError(
+      toast.error(
         `Please wait, ${
           currentOperation === 'publish' ? 'publishing' : 'deleting'
         } operation in progress...`,
@@ -39,10 +34,11 @@ const BlogPost = ({
       deleteBlog(getRequestHandler(), blog.blogId)
         .then(() => {
           onDelete(blog.blogId);
+          toast.success('Blog deleted successfully');
         })
         .catch((error) => {
           console.error('Failed to delete blog:', error);
-          onError('Failed to delete blog. Please try again.');
+          toast.error('Failed to delete blog. Please try again.');
         })
         .finally(() => {
           setCurrentOperation(null);
@@ -52,7 +48,7 @@ const BlogPost = ({
 
   const handlePublish = async (): Promise<void> => {
     if (isPending) {
-      onError(
+      toast.error(
         `Please wait, ${
           currentOperation === 'delete' ? 'deleting' : 'publishing'
         } operation in progress...`,
@@ -69,10 +65,11 @@ const BlogPost = ({
       })
         .then((updatedBlog) => {
           onUpdate(updatedBlog);
+          toast.success('Blog published successfully');
         })
         .catch((error) => {
           console.error('Failed to publish blog:', error);
-          onError('Failed to publish blog. Please try again.');
+          toast.error('Failed to publish blog. Please try again.');
         })
         .finally(() => {
           setCurrentOperation(null);

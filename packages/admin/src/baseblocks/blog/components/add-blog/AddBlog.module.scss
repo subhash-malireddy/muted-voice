@@ -40,32 +40,6 @@
       color: #333;
     }
     
-    .errorMessage {
-      background-color: #f8d7da;
-      color: #721c24;
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      margin-bottom: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid #f5c6cb;
-      
-      .dismissError {
-        background: none;
-        border: none;
-        color: #721c24;
-        font-size: 1.2rem;
-        cursor: pointer;
-        padding: 0;
-        margin-left: 1rem;
-        
-        &:hover {
-          opacity: 0.7;
-        }
-      }
-    }
-    
     .formGroup {
       margin-bottom: 1.5rem;
       

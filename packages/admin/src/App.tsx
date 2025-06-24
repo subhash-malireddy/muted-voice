@@ -9,6 +9,8 @@ import {
   createBrowserRouter,
   redirect,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '@aws-amplify/ui-react/styles.css';
 import Dashboard from './baseblocks/dashboard/pages/Dashboard';
 import User, { userLoader } from './baseblocks/user/pages/User';
@@ -58,10 +60,13 @@ export default function App() {
   }, []);
 
   return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<Loader hasStartedLoading={true} />}
-    />
+    <>
+      <RouterProvider
+        router={router}
+        fallbackElement={<Loader hasStartedLoading={true} />}
+      />
+      <ToastContainer />
+    </>
   );
 }
 

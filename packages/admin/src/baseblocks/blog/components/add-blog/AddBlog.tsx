@@ -2,6 +2,7 @@ import React, { useState, useTransition } from 'react';
 import { Blog } from '@baseline/types/blog';
 import { createBlog } from '@baseline/client-api/blog';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
+import { toast } from 'react-toastify';
 import styles from './AddBlog.module.scss';
 
 interface Props {
@@ -15,13 +16,12 @@ const AddBlog = (props: Props): JSX.Element => {
   const [author, setAuthor] = useState('');
   const [isPublished, setIsPublished] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
 
     if (isPending) {
-      setError('Please wait, blog creation in progress...');
+      toast.error('Please wait, blog creation in progress...');
       return;
     }
 
@@ -32,12 +32,11 @@ const AddBlog = (props: Props): JSX.Element => {
       isPublished,
     };
 
-    setError(null);
-
     startTransition(() => {
       createBlog(getRequestHandler(), blogData)
         .then((newBlog) => {
           props.setAllBlogs((blogs) => [...blogs, newBlog]);
+          toast.success('Blog created successfully');
 
           // Reset form
           setTitle('');
@@ -48,19 +47,18 @@ const AddBlog = (props: Props): JSX.Element => {
         })
         .catch((error) => {
           console.error('Failed to create blog:', error);
-          setError('Failed to create blog. Please try again.');
+          toast.error('Failed to create blog. Please try again.');
         });
     });
   };
 
   const handleClose = () => {
     if (isPending) {
-      setError('Please wait, blog creation in progress...');
+      toast.error('Please wait, blog creation in progress...');
       return;
     }
 
     setIsOpen(false);
-    setError(null);
     setTitle('');
     setContent('');
     setAuthor('');
@@ -81,18 +79,6 @@ const AddBlog = (props: Props): JSX.Element => {
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <h2>Add New Blog</h2>
-
-            {error && (
-              <div className={styles.errorMessage}>
-                {error}
-                <button
-                  className={styles.dismissError}
-                  onClick={() => setError(null)}
-                >
-                  ×
-                </button>
-              </div>
-            )}
 
             <form onSubmit={handleSubmit}>
               <div className={styles.formGroup}>

@@ -10,7 +10,6 @@ interface BlogListProps {
 
 const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
   const [allBlogs, setAllBlogs] = useState<Blog[]>(blogs);
-  const [error, setError] = useState<string | null>(null);
 
   const handleBlogDelete = (blogId: string) => {
     setAllBlogs((blogs) => blogs.filter((blog) => blog.blogId !== blogId));
@@ -24,10 +23,6 @@ const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
     );
   };
 
-  const handleError = (errorMessage: string) => {
-    setError(errorMessage);
-  };
-
   return (
     <div className={styles.blogList}>
       <div className={styles.list}>
@@ -38,18 +33,6 @@ const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
           <AddBlog setAllBlogs={setAllBlogs} />
         </div>
 
-        {error && (
-          <div className={styles.errorMessage}>
-            {error}
-            <button
-              className={styles.dismissError}
-              onClick={() => setError(null)}
-            >
-              ×
-            </button>
-          </div>
-        )}
-
         <div className={styles.blogPosts}>
           {allBlogs.map((blog) => (
             <BlogPost
@@ -57,7 +40,6 @@ const BlogList = ({ blogs }: BlogListProps): JSX.Element => {
               blog={blog}
               onDelete={handleBlogDelete}
               onUpdate={handleBlogUpdate}
-              onError={handleError}
             />
           ))}
         </div>
