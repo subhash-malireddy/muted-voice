@@ -1,84 +1,46 @@
 import React, { useState } from 'react';
-import {
-  FormGroup,
-  Input,
-  Label,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-} from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import styles from './ConfirmDelete.module.scss';
 
-interface Props {
+interface ConfirmDeleteProps {
   itemName: string;
-  deleteFunction(this: void): Promise<void>;
-  deleteString?: string;
-  buttonProps?: React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >;
+  deleteFunction: () => void;
+  isLoading?: boolean;
 }
 
-const ConfirmDelete = (props: Props): JSX.Element => {
-  const {
-    itemName,
-    deleteFunction,
-    deleteString = itemName,
-    buttonProps,
-  } = props;
+const ConfirmDelete = ({
+  itemName,
+  deleteFunction,
+  isLoading = false,
+}: ConfirmDeleteProps): JSX.Element => {
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggle = () => setIsModalOpen((open) => !open);
-  const [deleteType, setDeleteType] = useState('');
-
-  const handleDelete = async (): Promise<void> => {
-    toggle();
-    setDeleteType('');
-    await deleteFunction();
+  const handleDelete = (): void => {
+    setModal(false);
+    deleteFunction();
   };
 
   return (
     <div className={styles.confirmDelete}>
-      <button {...buttonProps} onClick={toggle} className={styles.deleteButton}>
-        Delete
-      </button>
-      <Modal
-        isOpen={isModalOpen}
-        toggle={toggle}
-        centered
-        className={styles.deleteModal}
-      >
+      <Button color="danger" onClick={toggle} disabled={isLoading}>
+        {isLoading ? 'Deleting...' : 'Delete'}
+      </Button>
+      <Modal isOpen={modal} toggle={toggle} centered>
         <ModalHeader toggle={toggle}>
           Delete &quot;{itemName}&quot;?
         </ModalHeader>
         <ModalBody>
-          <FormGroup>
-            <Label for="delete">
-              Please type <b>{deleteString}</b> to confirm deletion
-            </Label>
-            <Input
-              id="delete"
-              name="delete"
-              autoComplete="off"
-              placeholder={deleteString}
-              value={deleteType}
-              onChange={(e) => {
-                setDeleteType(e.target.value);
-              }}
-            />
-          </FormGroup>
+          Are you sure you want to delete &quot;{itemName}&quot;? This action
+          cannot be undone.
         </ModalBody>
         <ModalFooter>
-          <button
-            disabled={deleteString !== deleteType}
-            onClick={() => {
-              void handleDelete();
-            }}
-            className={styles.deleteButton}
-          >
+          <Button color="danger" onClick={handleDelete}>
             Delete
-          </button>
+          </Button>
+          <Button color="secondary" onClick={toggle}>
+            Cancel
+          </Button>
         </ModalFooter>
       </Modal>
     </div>

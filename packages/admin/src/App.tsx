@@ -9,10 +9,22 @@ import {
   createBrowserRouter,
   redirect,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '@aws-amplify/ui-react/styles.css';
 import Dashboard from './baseblocks/dashboard/pages/Dashboard';
 import User, { userLoader } from './baseblocks/user/pages/User';
 import Admins, { adminListLoader } from './baseblocks/admin/pages/Admins';
+import Blogs, { blogListLoader } from './baseblocks/blog/pages/Blogs';
+import ViewBlogPage, {
+  viewBlogLoader,
+} from './baseblocks/blog/pages/ViewBlogPage';
+import EditBlogPage, {
+  editBlogLoader,
+} from './baseblocks/blog/pages/EditBlogPage';
+import CreateBlogPage, {
+  createBlogLoader,
+} from './baseblocks/blog/pages/CreateBlogPage';
 import {
   createRequestHandler,
   getRequestHandler,
@@ -57,10 +69,13 @@ export default function App() {
   }, []);
 
   return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<Loader hasStartedLoading={true} />}
-    />
+    <>
+      <RouterProvider
+        router={router}
+        fallbackElement={<Loader hasStartedLoading={true} />}
+      />
+      <ToastContainer newestOnTop={true} stacked />
+    </>
   );
 }
 
@@ -120,6 +135,26 @@ const router = createBrowserRouter([
         path: '/admins',
         Component: Admins,
         loader: adminListLoader,
+      },
+      {
+        path: '/blogs',
+        Component: Blogs,
+        loader: blogListLoader,
+      },
+      {
+        path: '/blogs/new',
+        Component: CreateBlogPage,
+        loader: createBlogLoader,
+      },
+      {
+        path: '/blogs/:id',
+        Component: ViewBlogPage,
+        loader: viewBlogLoader,
+      },
+      {
+        path: '/blogs/:id/edit',
+        Component: EditBlogPage,
+        loader: editBlogLoader,
       },
       { path: '/settings', Component: User, loader: userLoader },
     ],
