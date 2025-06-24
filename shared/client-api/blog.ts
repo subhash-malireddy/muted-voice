@@ -1,7 +1,10 @@
 import { Blog } from '@baseline/types/blog';
 import { RequestHandler } from './request-handler';
 
-export const getBlog = async (requestHandler: RequestHandler, blogId: string): Promise<Blog> => {
+export const getBlog = async (
+  requestHandler: RequestHandler,
+  blogId: string,
+): Promise<Blog> => {
   const response = await requestHandler.request<Blog>({
     method: 'GET',
     url: `blog/${blogId}`,
@@ -13,7 +16,9 @@ export const getBlog = async (requestHandler: RequestHandler, blogId: string): P
   throw response;
 };
 
-export const getAllBlogs = async (requestHandler: RequestHandler): Promise<Blog[]> => {
+export const getAllBlogs = async (
+  requestHandler: RequestHandler,
+): Promise<Blog[]> => {
   const response = await requestHandler.request<Blog[]>({
     method: 'GET',
     url: `blog/list`,
@@ -25,7 +30,10 @@ export const getAllBlogs = async (requestHandler: RequestHandler): Promise<Blog[
   throw response;
 };
 
-export const deleteBlog = async (requestHandler: RequestHandler, blogId: string): Promise<boolean> => {
+export const deleteBlog = async (
+  requestHandler: RequestHandler,
+  blogId: string,
+): Promise<boolean> => {
   const response = await requestHandler.request<boolean>({
     method: 'DELETE',
     url: `blog/${blogId}`,
@@ -62,6 +70,37 @@ export const updateBlog = async (
     url: `blog`,
     hasAuthentication: true,
     data: blog,
+  });
+  if ('data' in response) {
+    return response.data;
+  }
+  throw response;
+};
+
+// Public functions for web package (no authentication required)
+export const getPublishedBlogs = async (
+  requestHandler: RequestHandler,
+): Promise<Blog[]> => {
+  const response = await requestHandler.request<Blog[]>({
+    method: 'GET',
+    url: `blog/public/list`,
+    hasAuthentication: false,
+  });
+  if ('data' in response) {
+    return response.data;
+  }
+  throw response;
+};
+
+//TODO:: remove this if not used
+export const getPublishedBlog = async (
+  requestHandler: RequestHandler,
+  blogId: string,
+): Promise<Blog> => {
+  const response = await requestHandler.request<Blog>({
+    method: 'GET',
+    url: `blog/public/${blogId}`,
+    hasAuthentication: false,
   });
   if ('data' in response) {
     return response.data;

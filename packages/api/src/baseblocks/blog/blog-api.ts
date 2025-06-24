@@ -107,3 +107,41 @@ app.get('/blog/:blogId', [
     }
   },
 ]);
+
+// Public endpoints for web package (no authentication required)
+app.get('/blog/public/list', [
+  async (req: RequestContext, res: Response) => {
+    try {
+      const blogs = await blogService.getAll();
+      const publishedBlogs = blogs.filter((blog) => blog.isPublished);
+      const formattedBlogs = publishedBlogs.map(blogMapper);
+      res.json(formattedBlogs);
+    } catch (error) {
+      const message = getErrorMessage(error);
+      console.error(`Failed to get published blogs: ${message}`);
+      res.status(400).json({
+        error: 'Failed to get published blogs',
+      });
+    }
+  },
+]);
+
+//TODO:: remove this if not used
+app.get('/blog/public/:blogId', [
+  async (req: RequestContext, res: Response) => {
+    try {
+      const blog = await blogService.get(req.params.blogId);
+      if (!blog.isPublished) {
+        res.status(404).json({ error: 'Blog not found or not published' });
+        return;
+      }
+      res.json(blogMapper(blog));
+    } catch (error) {
+      const message = getErrorMessage(error);
+      console.error(`Failed to get published blog: ${message}`);
+      res.status(400).json({
+        error: 'Failed to get published blog',
+      });
+    }
+  },
+]);
