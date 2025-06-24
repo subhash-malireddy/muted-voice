@@ -65,7 +65,7 @@ export default function App() {
         router={router}
         fallbackElement={<Loader hasStartedLoading={true} />}
       />
-      <ToastContainer />
+      <ToastContainer newestOnTop={true} stacked />
     </>
   );
 }
