@@ -1,0 +1,103 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e1e5e9;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  
+  &.back {
+    background-color: #6c757d;
+    
+    &:hover {
+      background-color: #545b62;
+    }
+  }
+  
+  &.edit {
+    background-color: #007bff;
+    
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+.article {
+  
+}
+
+.articleHeader {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.metadata {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.author {
+  strong {
+    font-weight: 600;
+  }
+}
+
+.divider {
+  color: #ccc;
+}
+
+.statusPill {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  
+  &.published {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  &.draft {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+}
+
+.content {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  white-space: pre-wrap;
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+} 

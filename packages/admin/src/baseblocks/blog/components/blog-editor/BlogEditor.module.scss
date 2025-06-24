@@ -1,0 +1,112 @@
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s, opacity 0.2s;
+  background-color: #fff;
+  color: #333;
+  
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+  
+  &:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.textarea {
+  @extend .input;
+  resize: vertical;
+  min-height: 300px;
+  font-family: inherit;
+}
+
+.checkboxGroup {
+  margin-bottom: 2rem;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  
+  &.disabled {
+    cursor: not-allowed;
+  }
+  
+  input {
+    margin-right: 0.5rem;
+    cursor: inherit;
+  }
+}
+
+.helpText {
+  display: block;
+  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e1e5e9;
+}
+
+.button {
+  padding: 0.75rem 1.5rem;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  cursor: pointer;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  &.cancel {
+    background-color: #6c757d;
+    
+    &:hover:not(:disabled) {
+      background-color: #545b62;
+    }
+  }
+  
+  &.submit {
+    background-color: #28a745;
+    
+    &:hover:not(:disabled) {
+      background-color: #218838;
+    }
+    
+    &.disabled {
+      background-color: #6c757d;
+    }
+  }
+} 

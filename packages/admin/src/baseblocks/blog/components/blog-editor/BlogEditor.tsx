@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useBeforeUnload } from 'react-router-dom';
 import { Blog } from '@baseline/types/blog';
+import styles from './BlogEditor.module.scss';
 
 interface BlogEditorProps {
   initialBlog?: Partial<Blog>;
@@ -90,17 +91,8 @@ const BlogEditor = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div style={{ marginBottom: '1.5rem' }}>
-        <label
-          style={{
-            display: 'block',
-            marginBottom: '0.5rem',
-            fontWeight: '500',
-            color: '#333',
-          }}
-        >
-          Title *
-        </label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Title *</label>
         <input
           type="text"
           value={title}
@@ -108,31 +100,12 @@ const BlogEditor = ({
           disabled={isLoading}
           placeholder="Enter blog title..."
           required
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            fontSize: '1rem',
-            transition: 'border-color 0.2s, opacity 0.2s',
-            backgroundColor: isLoading ? '#f8f9fa' : '#fff',
-            color: isLoading ? '#6c757d' : '#333',
-            opacity: isLoading ? 0.6 : 1,
-          }}
+          className={styles.input}
         />
       </div>
 
-      <div style={{ marginBottom: '1.5rem' }}>
-        <label
-          style={{
-            display: 'block',
-            marginBottom: '0.5rem',
-            fontWeight: '500',
-            color: '#333',
-          }}
-        >
-          Author *
-        </label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Author *</label>
         <input
           type="text"
           value={author}
@@ -140,31 +113,12 @@ const BlogEditor = ({
           disabled={isLoading}
           placeholder="Enter author name..."
           required
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            fontSize: '1rem',
-            transition: 'border-color 0.2s, opacity 0.2s',
-            backgroundColor: isLoading ? '#f8f9fa' : '#fff',
-            color: isLoading ? '#6c757d' : '#333',
-            opacity: isLoading ? 0.6 : 1,
-          }}
+          className={styles.input}
         />
       </div>
 
-      <div style={{ marginBottom: '1.5rem' }}>
-        <label
-          style={{
-            display: 'block',
-            marginBottom: '0.5rem',
-            fontWeight: '500',
-            color: '#333',
-          }}
-        >
-          Content *
-        </label>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Content *</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -172,81 +126,38 @@ const BlogEditor = ({
           disabled={isLoading}
           placeholder="Write your blog content here..."
           required
-          style={{
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid #ddd',
-            borderRadius: '4px',
-            fontSize: '1rem',
-            resize: 'vertical',
-            minHeight: '300px',
-            fontFamily: 'inherit',
-            transition: 'border-color 0.2s, opacity 0.2s',
-            backgroundColor: isLoading ? '#f8f9fa' : '#fff',
-            color: isLoading ? '#6c757d' : '#333',
-            opacity: isLoading ? 0.6 : 1,
-          }}
+          className={styles.textarea}
         />
       </div>
 
-      <div style={{ marginBottom: '2rem' }}>
+      <div className={styles.checkboxGroup}>
         <label
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            fontWeight: '500',
-            color: '#333',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
-          }}
+          className={`${styles.checkboxLabel} ${
+            isLoading ? styles.disabled : ''
+          }`}
         >
           <input
             type="checkbox"
             checked={isPublished}
             onChange={(e) => setIsPublished(e.target.checked)}
             disabled={isLoading}
-            style={{ marginRight: '0.5rem', cursor: 'inherit' }}
           />
           {isEditMode ? 'Published' : 'Publish immediately'}
         </label>
         {!isEditMode && (
-          <small
-            style={{
-              display: 'block',
-              marginTop: '0.25rem',
-              color: '#666',
-              fontSize: '0.85rem',
-            }}
-          >
+          <small className={styles.helpText}>
             If unchecked, the blog will be saved as a draft
           </small>
         )}
       </div>
 
       {/* Action buttons */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '1rem',
-          justifyContent: 'flex-end',
-          paddingTop: '1rem',
-          borderTop: '1px solid #e1e5e9',
-        }}
-      >
+      <div className={styles.actionButtons}>
         <button
           type="button"
           onClick={handleCancel}
           disabled={isLoading}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#6c757d',
-            color: '#fff',
-            border: 0,
-            borderRadius: '4px',
-            cursor: isLoading ? 'not-allowed' : 'pointer',
-            fontSize: '0.95rem',
-            opacity: isLoading ? 0.6 : 1,
-            transition: 'all 0.2s',
-          }}
+          className={`${styles.button} ${styles.cancel}`}
         >
           Cancel
         </button>
@@ -256,35 +167,15 @@ const BlogEditor = ({
           disabled={
             isLoading || (isEditMode ? !hasUnsavedChanges : !isFormValid)
           }
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: isEditMode
-              ? hasUnsavedChanges && !isLoading
-                ? '#28a745'
-                : '#6c757d'
-              : isFormValid && !isLoading
-              ? '#28a745'
-              : '#6c757d',
-            color: '#fff',
-            border: 0,
-            borderRadius: '4px',
-            cursor: isEditMode
-              ? isLoading || !hasUnsavedChanges
-                ? 'not-allowed'
-                : 'pointer'
-              : isLoading || !isFormValid
-              ? 'not-allowed'
-              : 'pointer',
-            fontSize: '0.95rem',
-            opacity: isEditMode
-              ? isLoading || !hasUnsavedChanges
-                ? 0.6
-                : 1
-              : isLoading || !isFormValid
-              ? 0.6
-              : 1,
-            transition: 'all 0.2s',
-          }}
+          className={`${styles.button} ${styles.submit} ${
+            isEditMode
+              ? !hasUnsavedChanges || isLoading
+                ? styles.disabled
+                : ''
+              : !isFormValid || isLoading
+              ? styles.disabled
+              : ''
+          }`}
         >
           {submitButtonText}
         </button>

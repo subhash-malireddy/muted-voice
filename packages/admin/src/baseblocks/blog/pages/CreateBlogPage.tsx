@@ -6,6 +6,7 @@ import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { toast } from 'react-toastify';
 import PageContent from '../../../components/page-content/PageContent';
 import BlogEditor from '../components/blog-editor/BlogEditor';
+import styles from './CreateBlogPage.module.scss';
 
 const CreateBlogPage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -40,43 +41,15 @@ const CreateBlogPage = (): JSX.Element => {
 
   return (
     <PageContent>
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '1rem' }}>
+      <div className={styles.container}>
         {/* Header */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '2rem',
-            paddingBottom: '1rem',
-            borderBottom: '1px solid #e1e5e9',
-          }}
-        >
-          <h1
-            style={{
-              fontSize: '2rem',
-              fontWeight: '600',
-              color: '#1a1a1a',
-              margin: 0,
-            }}
-          >
-            Create New Blog Post
-          </h1>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Create New Blog Post</h1>
 
           <button
             onClick={() => navigate('/blogs')}
             disabled={isPending}
-            style={{
-              padding: '0.5rem 1rem',
-              backgroundColor: '#6c757d',
-              color: '#fff',
-              border: 0,
-              borderRadius: '4px',
-              cursor: isPending ? 'not-allowed' : 'pointer',
-              fontSize: '0.9rem',
-              opacity: isPending ? 0.6 : 1,
-              transition: 'all 0.2s',
-            }}
+            className={styles.backButton}
           >
             ← Back to List
           </button>
