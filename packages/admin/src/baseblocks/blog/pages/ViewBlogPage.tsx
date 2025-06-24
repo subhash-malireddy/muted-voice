@@ -11,7 +11,7 @@ import PageContent from '../../../components/page-content/PageContent';
 import styles from './ViewBlogPage.module.scss';
 
 export async function viewBlogLoader({ params }: LoaderFunctionArgs) {
-  const blog = await getBlog(getRequestHandler(), params.id!);
+  const blog = await getBlog(getRequestHandler(), params.id);
   return { blog };
 }
 

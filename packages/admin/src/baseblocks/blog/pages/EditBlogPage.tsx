@@ -13,7 +13,7 @@ import BlogEditor from '../components/blog-editor/BlogEditor';
 import styles from './EditBlogPage.module.scss';
 
 export async function editBlogLoader({ params }: LoaderFunctionArgs) {
-  const blog = await getBlog(getRequestHandler(), params.id!);
+  const blog = await getBlog(getRequestHandler(), params.id);
   return { blog };
 }
 

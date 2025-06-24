@@ -70,7 +70,7 @@ const BlogEditor = ({
 
     // Include blogId for edit mode
     if (initialBlog?.blogId) {
-      (blogData as any).blogId = initialBlog.blogId;
+      blogData.blogId = initialBlog.blogId;
     }
 
     onSubmit(blogData);
