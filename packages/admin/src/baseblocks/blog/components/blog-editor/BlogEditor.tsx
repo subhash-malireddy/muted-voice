@@ -65,7 +65,11 @@ const BlogEditor = ({
       title: title.trim(),
       content: content.trim(),
       author: author.trim(),
-      isPublished,
+      // If in edit mode and the blog is published, keep the original published status
+      isPublished:
+        isEditMode && initialBlog?.isPublished
+          ? initialBlog?.isPublished
+          : isPublished,
     };
 
     // Include blogId for edit mode
@@ -88,6 +92,7 @@ const BlogEditor = ({
 
   const isFormValid = title.trim() && content.trim() && author.trim();
   const isEditMode = !!initialBlog?.blogId;
+  const isPublishedInEditMode = isEditMode && initialBlog?.isPublished;
 
   return (
     <form onSubmit={handleSubmit}>
