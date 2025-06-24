@@ -1,7 +1,7 @@
 import React, { useState, useTransition } from 'react';
 import { deleteAdmin } from '@baseline/client-api/admin';
 import ConfirmDelete from '../../../../components/confirm-delete/ConfirmDelete';
-import AddUser from '../add-admin/AddAdmin';
+import AddAdmin from '../add-admin/AddAdmin';
 import styles from './AdminList.module.scss';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { Admin } from '@baseline/types/admin';
@@ -35,7 +35,7 @@ const AdminList = ({ admins = [] }: AdminListProps): JSX.Element => {
           <div className={styles.userCount}>
             There are {allAdmins.length} people in your team
           </div>
-          <AddUser setAllAdmins={setAllAdmins} />
+          <AddAdmin setAllAdmins={setAllAdmins} />
         </div>
         {allAdmins.map((admin) => (
           <div key={admin.userSub} className={styles.admin}>
