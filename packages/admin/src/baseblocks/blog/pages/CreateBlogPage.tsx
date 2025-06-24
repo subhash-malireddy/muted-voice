@@ -1,5 +1,6 @@
 import React, { useTransition } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
+import { fetchUserAttributes } from 'aws-amplify/auth';
 import { Blog } from '@baseline/types/blog';
 import { createBlog } from '@baseline/client-api/blog';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
@@ -8,8 +9,14 @@ import PageContent from '../../../components/page-content/PageContent';
 import BlogEditor from '../components/blog-editor/BlogEditor';
 import styles from './CreateBlogPage.module.scss';
 
+export async function createBlogLoader() {
+  const { email } = await fetchUserAttributes();
+  return { userEmail: email };
+}
+
 const CreateBlogPage = (): JSX.Element => {
   const navigate = useNavigate();
+  const { userEmail } = useLoaderData() as { userEmail: string };
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (blogData: Partial<Blog>): void => {
@@ -39,6 +46,11 @@ const CreateBlogPage = (): JSX.Element => {
     return isPending ? 'Creating...' : 'Create Blog';
   };
 
+  // Pre-populate initial blog data with user's email as author
+  const initialBlogData = {
+    author: userEmail || '',
+  };
+
   return (
     <PageContent>
       <div className={styles.container}>
@@ -57,6 +69,7 @@ const CreateBlogPage = (): JSX.Element => {
 
         {/* Blog Editor */}
         <BlogEditor
+          initialBlog={initialBlogData}
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           submitButtonText={getSubmitButtonText()}

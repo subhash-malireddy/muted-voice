@@ -22,7 +22,9 @@ import ViewBlogPage, {
 import EditBlogPage, {
   editBlogLoader,
 } from './baseblocks/blog/pages/EditBlogPage';
-import CreateBlogPage from './baseblocks/blog/pages/CreateBlogPage';
+import CreateBlogPage, {
+  createBlogLoader,
+} from './baseblocks/blog/pages/CreateBlogPage';
 import {
   createRequestHandler,
   getRequestHandler,
@@ -142,6 +144,7 @@ const router = createBrowserRouter([
       {
         path: '/blogs/new',
         Component: CreateBlogPage,
+        loader: createBlogLoader,
       },
       {
         path: '/blogs/:id',
