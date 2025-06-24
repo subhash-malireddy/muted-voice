@@ -79,11 +79,6 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
     });
   };
 
-  const getPublishButtonText = () => {
-    if (!isPending) return 'Publish';
-    return currentOperation === 'publish' ? 'Publishing...' : 'Publish';
-  };
-
   const handleTitleClick = () => {
     navigate(`/blogs/${blog.blogId}`);
   };
@@ -140,7 +135,7 @@ const BlogPost = ({ blog, onDelete, onUpdate }: BlogPostProps): JSX.Element => {
             onClick={handlePublish}
             disabled={isPending}
           >
-            {getPublishButtonText()}
+            Publish
           </button>
         )}
         <ConfirmDelete
