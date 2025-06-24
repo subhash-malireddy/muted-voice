@@ -14,9 +14,14 @@ const AddBlog = (props: Props): JSX.Element => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [isPublished, setIsPublished] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
+
+    setIsLoading(true);
+    setError(null);
 
     const blogData: Partial<Blog> = {
       title,
@@ -37,7 +42,19 @@ const AddBlog = (props: Props): JSX.Element => {
       setIsOpen(false);
     } catch (error) {
       console.error('Failed to create blog:', error);
+      setError('Failed to create blog. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setError(null);
+    setTitle('');
+    setContent('');
+    setAuthor('');
+    setIsPublished(false);
   };
 
   return (
@@ -50,6 +67,19 @@ const AddBlog = (props: Props): JSX.Element => {
         <div className={styles.modal}>
           <div className={styles.modalContent}>
             <h2>Add New Blog</h2>
+
+            {error && (
+              <div className={styles.errorMessage}>
+                {error}
+                <button
+                  className={styles.dismissError}
+                  onClick={() => setError(null)}
+                >
+                  ×
+                </button>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <label>Title</label>
@@ -57,6 +87,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -67,6 +98,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   type="text"
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -77,6 +109,7 @@ const AddBlog = (props: Props): JSX.Element => {
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   rows={10}
+                  disabled={isLoading}
                   required
                 />
               </div>
@@ -87,16 +120,23 @@ const AddBlog = (props: Props): JSX.Element => {
                     type="checkbox"
                     checked={isPublished}
                     onChange={(e) => setIsPublished(e.target.checked)}
+                    disabled={isLoading}
                   />
                   Publish immediately
                 </label>
               </div>
 
               <div className={styles.buttons}>
-                <button type="button" onClick={() => setIsOpen(false)}>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  disabled={isLoading}
+                >
                   Cancel
                 </button>
-                <button type="submit">Create Blog</button>
+                <button type="submit" disabled={isLoading}>
+                  {isLoading ? 'Creating...' : 'Create Blog'}
+                </button>
               </div>
             </form>
           </div>
