@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { deleteAdmin } from '@baseline/client-api/admin';
 import ConfirmDelete from '../../../../components/confirm-delete/ConfirmDelete';
 import AddUser from '../add-admin/AddAdmin';
@@ -6,18 +6,26 @@ import styles from './AdminList.module.scss';
 import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { Admin } from '@baseline/types/admin';
 
-interface Props {
+interface AdminListProps {
   admins: Admin[];
 }
 
-const AdminList = (props: Props): JSX.Element => {
-  const [allAdmins, setAllAdmins] = useState<Admin[]>(props?.admins || []);
+const AdminList = ({ admins = [] }: AdminListProps): JSX.Element => {
+  const [allAdmins, setAllAdmins] = useState<Admin[]>(admins);
+  const [isPending, startTransition] = useTransition();
 
-  const handleDelete = async (adminSub: string): Promise<void> => {
-    await deleteAdmin(getRequestHandler(), { adminId: adminSub });
-    setAllAdmins((admins) =>
-      admins.filter((admin) => admin.userSub !== adminSub),
-    );
+  const handleDelete = (adminSub: string): void => {
+    startTransition(() => {
+      deleteAdmin(getRequestHandler(), { adminId: adminSub })
+        .then(() => {
+          setAllAdmins((admins) =>
+            admins.filter((admin) => admin.userSub !== adminSub),
+          );
+        })
+        .catch((error) => {
+          console.error('Failed to delete admin:', error);
+        });
+    });
   };
 
   return (
@@ -41,9 +49,8 @@ const AdminList = (props: Props): JSX.Element => {
             <div className={styles.buttons}>
               <ConfirmDelete
                 itemName={admin.userEmail}
-                deleteFunction={async () => {
-                  await handleDelete(admin.userSub);
-                }}
+                deleteFunction={() => handleDelete(admin.userSub)}
+                isLoading={isPending}
               />
             </div>
           </div>

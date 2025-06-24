@@ -5,11 +5,11 @@ import { getRequestHandler } from '@baseline/client-api/request-handler';
 import { toast } from 'react-toastify';
 import styles from './AddBlog.module.scss';
 
-interface Props {
+interface AddBlogProps {
   setAllBlogs: React.Dispatch<React.SetStateAction<Blog[]>>;
 }
 
-const AddBlog = (props: Props): JSX.Element => {
+const AddBlog = ({ setAllBlogs }: AddBlogProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -17,7 +17,7 @@ const AddBlog = (props: Props): JSX.Element => {
   const [isPublished, setIsPublished] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
 
     if (isPending) {
@@ -35,7 +35,7 @@ const AddBlog = (props: Props): JSX.Element => {
     startTransition(() => {
       createBlog(getRequestHandler(), blogData)
         .then((newBlog) => {
-          props.setAllBlogs((blogs) => [...blogs, newBlog]);
+          setAllBlogs((blogs) => [...blogs, newBlog]);
           toast.success('Blog created successfully');
 
           // Reset form

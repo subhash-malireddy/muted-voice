@@ -2,21 +2,23 @@ import React, { useState } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import styles from './ConfirmDelete.module.scss';
 
-interface Props {
+interface ConfirmDeleteProps {
   itemName: string;
-  deleteFunction(this: void): Promise<void>;
+  deleteFunction: () => void;
   isLoading?: boolean;
 }
 
-const ConfirmDelete = (props: Props): JSX.Element => {
-  const { itemName, deleteFunction, isLoading = false } = props;
-
+const ConfirmDelete = ({
+  itemName,
+  deleteFunction,
+  isLoading = false,
+}: ConfirmDeleteProps): JSX.Element => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
-  const handleDelete = async (): Promise<void> => {
+  const handleDelete = (): void => {
     setModal(false);
-    await deleteFunction();
+    deleteFunction();
   };
 
   return (
@@ -25,10 +27,12 @@ const ConfirmDelete = (props: Props): JSX.Element => {
         {isLoading ? 'Deleting...' : 'Delete'}
       </Button>
       <Modal isOpen={modal} toggle={toggle} centered>
-        <ModalHeader toggle={toggle}>Delete "{itemName}"?</ModalHeader>
+        <ModalHeader toggle={toggle}>
+          Delete &quot;{itemName}&quot;?
+        </ModalHeader>
         <ModalBody>
-          Are you sure you want to delete "{itemName}"? This action cannot be
-          undone.
+          Are you sure you want to delete &quot;{itemName}&quot;? This action
+          cannot be undone.
         </ModalBody>
         <ModalFooter>
           <Button color="danger" onClick={handleDelete}>
