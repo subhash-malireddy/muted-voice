@@ -11,6 +11,11 @@ interface Route {
 
 const leftRoutes: Route[] = [
   {
+    label: 'Blog',
+    path: '/blogs',
+    type: 'link',
+  },
+  {
     label: 'About',
     path: '/about',
     type: 'link',
